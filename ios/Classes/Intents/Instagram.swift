@@ -46,18 +46,13 @@ class Instagram: ShareIntent {
 
          if backgroundFileName != nil {
             let backgroundAssetPath = temporaryDirectory.appendingPathComponent(backgroundFileName!)
-            let pathExtention = URL(fileURLWithPath: backgroundAssetPath).pathExtension
-             if imageExtensions.contains(pathExtention!)
-            {
+            if imageExtensions.contains(backgroundAssetPath.pathExtension) {
                 let backgroundAsset = UIImage(contentsOfFile: backgroundAssetPath.path)
                 pasteboardItems.append(["com.instagram.sharedSticker.backgroundImage": backgroundAsset!])
-            }else
-            {
+            } else {
                 let backgroundAsset = NSData(contentsOfFile: backgroundAssetPath.path)
                 pasteboardItems.append(["com.instagram.sharedSticker.backgroundVideo": backgroundAsset!])
             }
-            // let backgroundAsset = UIImage(contentsOfFile: backgroundAssetPath.path)
-            // pasteboardItems.append(["com.instagram.sharedSticker.backgroundImage": backgroundAsset!])
         }
         
         if stickerAssetName != nil {
