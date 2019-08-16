@@ -11,11 +11,11 @@ class Instagram: ShareIntent {
     ]
     
     func shareToStory(arguments: Dictionary<String, String?>, result: @escaping FlutterResult) {
-        var pasteboardItems: [[String: Any]] = []
+        var pasteboardItems: [String: Any] = [:]
         let argsKeys = arguments.keys
         if argsKeys.contains("appId") {
             let appId = arguments["appId"]! ?? ""
-            pasteboardItems.append(["com.instagram.sharedSticker.appID": appId])
+            pasteboardItems["com.instagram.sharedSticker.appID"] = appId
         }
 
         let imageExtensions = ["png", "jpg", "jpeg"]
@@ -41,30 +41,30 @@ class Instagram: ShareIntent {
         if backgroundAssetName != nil {
             let backgroundAssetPath = temporaryDirectory.appendingPathComponent(backgroundAssetName!)
             let backgroundAsset = UIImage(contentsOfFile: backgroundAssetPath.path)
-            pasteboardItems.append(["com.instagram.sharedSticker.backgroundImage": backgroundAsset!])
+            pasteboardItems["com.instagram.sharedSticker.backgroundImage"] = backgroundAsset
         }
 
          if backgroundFileName != nil {
             let backgroundAssetPath = temporaryDirectory.appendingPathComponent(backgroundFileName!)
             if imageExtensions.contains(backgroundAssetPath.pathExtension) {
                 let backgroundAsset = UIImage(contentsOfFile: backgroundAssetPath.path)
-                pasteboardItems.append(["com.instagram.sharedSticker.backgroundImage": backgroundAsset!])
+                pasteboardItems["com.instagram.sharedSticker.backgroundImage"] = backgroundAsset
             } else {
                 let backgroundAsset = NSData(contentsOfFile: backgroundAssetPath.path)
-                pasteboardItems.append(["com.instagram.sharedSticker.backgroundVideo": backgroundAsset!])
+                pasteboardItems["com.instagram.sharedSticker.backgroundVideo"] = backgroundAsset
             }
         }
         
         if stickerAssetName != nil {
             let stickerAssetPath = temporaryDirectory.appendingPathComponent(stickerAssetName!)
             let stickerAsset = UIImage(contentsOfFile: stickerAssetPath.path)
-            pasteboardItems.append(["com.instagram.sharedSticker.stickerImage": stickerAsset!])
+            pasteboardItems["com.instagram.sharedSticker.stickerImage"] = stickerAsset
         }
         
         if stickerFileName != nil {
             let stickerAssetPath = temporaryDirectory.appendingPathComponent(stickerFileName!)
             let stickerAsset = UIImage(contentsOfFile: stickerAssetPath.path)
-            pasteboardItems.append(["com.instagram.sharedSticker.stickerImage": stickerAsset!])
+            pasteboardItems["com.instagram.sharedSticker.stickerImage"] = stickerAsset
         }
         
         var topBackgroundColor = arguments["topBackgroundColor"] as? String
@@ -77,13 +77,13 @@ class Instagram: ShareIntent {
         }
         
         if topBackgroundColor != nil && bottomBackgroundColor != nil {
-            pasteboardItems.append(["com.instagram.sharedSticker.backgroundTopColor": topBackgroundColor!])
-            pasteboardItems.append(["com.instagram.sharedSticker.backgroundBottomColor": bottomBackgroundColor!])
+            pasteboardItems["com.instagram.sharedSticker.backgroundTopColor"] = topBackgroundColor
+            pasteboardItems["com.instagram.sharedSticker.backgroundBottomColor"] = bottomBackgroundColor
         }
         
         if let contentUrl = arguments["contentUrl"] as? String {
             if !contentUrl.isEmpty {
-                pasteboardItems.append(["com.instagram.sharedSticker.contentURL": contentUrl])
+                pasteboardItems["com.instagram.sharedSticker.contentURL"] = contentUrl
             }
         }
         
@@ -91,7 +91,7 @@ class Instagram: ShareIntent {
             let pasteboardOptions = [
                 UIPasteboardOption.expirationDate: Date.init(timeIntervalSinceNow: 60 * 5)
             ]
-            UIPasteboard.general.setItems(pasteboardItems, options: pasteboardOptions)
+            UIPasteboard.general.setItems([pasteboardItems], options: pasteboardOptions)
             UIApplication.shared.open(URL(string: "instagram-stories://share")!, options: [:], completionHandler: { (r) -> Void in
                 if r {
                     result(0x00)
@@ -101,7 +101,7 @@ class Instagram: ShareIntent {
                 }
             })
         } else {
-            UIPasteboard.general.addItems(pasteboardItems)
+            UIPasteboard.general.addItems([pasteboardItems])
             UIApplication.shared.openURL(URL(string: "instagram-stories://share")!)
             result(0x00)
         }
