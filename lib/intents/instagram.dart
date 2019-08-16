@@ -26,14 +26,14 @@ class Instagram extends ShareIntent {
         final Uint8List backgroundAssetAsList = composer.backgroundAsset;
         final backgroundAssetPath = '${tempDir.path}/$backgroundAssetName';
         final file = await File(backgroundAssetPath).create();
-        file.writeAsBytesSync(backgroundAssetAsList);
+        await file.writeAsBytes(backgroundAssetAsList);
       }
 
       if (composer.backgroundFile != null) {
-        File backgroudFile = File(composer.backgroundFile);
-        backgroundFileName = basename(backgroudFile.path);
+        File backgroundFile = File(composer.backgroundFile);
+        backgroundFileName = basename(backgroundFile.path);
         final backgroundFilePath = '${tempDir.path}/$backgroundFileName';
-        final file   = await backgroudFile.copy(backgroundFilePath);
+        await backgroundFile.copy(backgroundFilePath);
       }
 
       if (composer.stickerAsset != null) {
@@ -41,14 +41,14 @@ class Instagram extends ShareIntent {
         final Uint8List stickerAssetAsList = composer.stickerAsset;
         final stickerAssetPath = '${tempDir.path}/$stickerAssetName';
         final file = await File(stickerAssetPath).create();
-        file.writeAsBytesSync(stickerAssetAsList);
+        await file.writeAsBytes(stickerAssetAsList);
       }
 
        if (composer.stickerFile != null) {
         File stickerFile = File(composer.stickerFile);
         stickerFileName = basename(stickerFile.path);
         final backgroundFilePath = '${tempDir.path}/$stickerFileName';
-        final file   = await stickerFile.copy(backgroundFilePath);
+        await stickerFile.copy(backgroundFilePath);
       }
 
 

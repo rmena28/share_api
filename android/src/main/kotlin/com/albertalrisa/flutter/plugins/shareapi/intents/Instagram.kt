@@ -58,7 +58,7 @@ class Instagram(authority_name: String, registrar: Registrar, activity: Activity
             val stickerAsset = File(registrar.context().cacheDir, stickerAssetName)
             val stickerAssetUri = FileProvider.getUriForFile(registrar.context(), authority_name, stickerAsset)
             val stickerMediaType = arguments["stickerMediaType"]
-            if (backgroundAssetName == null) {
+            if (backgroundAssetName == null && backgroundFileName == null) {
                 shareIntent.type = stickerMediaType
             }
             shareIntent.putExtra("interactive_asset_uri", stickerAssetUri)
@@ -69,7 +69,7 @@ class Instagram(authority_name: String, registrar: Registrar, activity: Activity
             val stickerAsset = File(registrar.context().cacheDir, stickerFileName)
             val stickerAssetUri = FileProvider.getUriForFile(registrar.context(), authority_name, stickerAsset)
             val stickerMediaType = arguments["stickerMediaType"]
-            if (backgroundAssetName == null) {
+            if (backgroundAssetName == null && backgroundFileName == null) {
                 shareIntent.type = stickerMediaType
             }
             shareIntent.putExtra("interactive_asset_uri", stickerAssetUri)
